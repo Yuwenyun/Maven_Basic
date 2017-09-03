@@ -1,0 +1,33 @@
+<assembly xmlns="http://maven.apache.org/ASSEMBLY/2.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.0.0 http://maven.apache.org/xsd/assembly-2.0.0.xsd">
+	<id>myAssembly</id>
+	<formats>
+		<format>tar.gz</format>
+	</formats>
+	<includeBaseDirectory>false</includeBaseDirectory>
+
+	<!-- dependencySets configure those jars(dependency) referred in the project 
+		and we can exclude the project itself -->
+	<dependencySets>
+		<dependencySet>
+			<excludes>
+				<exclude>com.owen:Maven_Basic</exclude>
+			</excludes>
+			<outputDirectory>/${project.artifactId}/dependencyLib</outputDirectory>
+		</dependencySet>
+	</dependencySets>
+
+	<!-- configure other directory structure here -->
+	<fileSets>
+		<fileSet>
+			<!-- target folder -->
+			<directory>target</directory>
+			<outputDirectory>/${project.artifactId}/lib</outputDirectory>
+			<includes>
+				<include>*.jar</include>
+			</includes>
+		</fileSet>
+	</fileSets>
+
+</assembly>
