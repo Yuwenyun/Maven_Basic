@@ -6,26 +6,30 @@
 	<artifactId>Maven_Basic</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
-	<!-- possible values of <packaging>: 1. pom: all the dependencies in this 
-		pom will be grouped together, by running the command "mvn clean install", 
-		the project is installed in repository and is able to be refered in other 
-		maven project which uses all the dependencies here. -->
+	<!-- possible values of <packaging>: 
+		1. pom: all the dependencies in this pom will be grouped together, by running the 
+		   command "mvn clean install", the project is installed in repository and is able to be refered 
+		   in other maven project which uses all the dependencies here. 
+	-->
 	<packaging>jar</packaging>
 
-	<!-- 1. all the pom.xml inherit from super pom.xml and super pom.xml disabled 
-		snapshots version by default 2. "mvn help:effective-pom" will print out the 
-		merged pom.xml of super pom.xml and project pom.xml 3. version structure: 
-		<major version>.<minor version>.<incremental version>-<qualifier> 4. version 
-		with SNAPSHOT string will be expanded to date and time 5. maven properties: 
-		1> ${env.PATH} is the value of $PATH, "env" is the environment of system 
-		2> project: expose the pom.xml, ${project.groupId} = com.owen 3> settings: 
-		expose the ../.m2/settings.xml, ${settings.offline} is the offline element 
-		of settings.xml 4> any variable accessible through System.getProperty("") 
-		in java is able to be accessed, ${user.name} 5> define variable in <properties></properties> 
-		6. dependency scope: 1> compile: default scope, dependency will be packaged 
-		2> provided: dependency only needed when compile and test, it's provided 
-		by container 3> runtime: dependency available when execute and test the project, 
-		not compile 4> test: only needed when testing 5> -->
+	<!-- 1. all the pom.xml inherit from super pom.xml and super pom.xml disabled snapshots version by default 
+		 2. "mvn help:effective-pom" will print out the merged pom.xml of super pom.xml and project pom.xml 
+		 3. version structure: <major version>.<minor version>.<incremental version>-<qualifier> 
+		 4. version with SNAPSHOT string will be expanded to date and time 
+		 5. maven properties: 
+			1> ${env.PATH} is the value of $PATH, "env" is the environment of system 
+			2> project: expose the pom.xml, ${project.groupId} = com.owen 
+			3> settings: expose the ../.m2/settings.xml, ${settings.offline} is the offline element of settings.xml 
+			4> any variable accessible through System.getProperty("") in java is able to be accessed, ${user.name} 
+			5> define variable in <properties></properties> 
+		 6. dependency scope: 
+		    1> compile: default scope, dependency will be packaged 
+			2> provided: dependency only needed when compile and test, it's provided by container 
+			3> runtime: dependency available when execute and test the project, not compile 
+			4> test: only needed when testing 
+			5> 
+	-->
 
 	<name>Maven_Basic</name>
 	<url>http://maven.apache.org</url>
@@ -100,4 +104,25 @@
 			</plugin>
 		</plugins>
 	</build>
+	
+	<!-- <profiles> defines a set of configurations for different environments, to activate the profile,
+	     add command -PprofileName as the arg for command
+	-->
+	<profiles>
+		<profile>
+			<id>production</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId> 
+						<artifactId>maven-compiler-plugin</artifactId>
+						<configuration>
+							<debug>false</debug>
+							<optimize>true</optimize>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
