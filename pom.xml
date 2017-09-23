@@ -77,9 +77,72 @@
 		</dependencies>
 	</dependencyManagement>
 
-	<!-- below configuration of the pom defines the operation which will be operate when package phase happened -->
 	<build>
+		<resources>
+			<resource>
+				<directory>test</directory>
+				<!-- enable args of maven to be writen to the "test" folder specified in above directory tag, 
+				     mvn resources:resources -Dname=Owen -->
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 		<plugins>
+			<!-- clean goal of clean plugin, attached with clean phase -->
+			<plugin>
+				<artifactId>maven-clean-plugin</artifactId>
+				<configuration>
+					<!-- disable the deletion of "target" folder -->
+					<excludeDefaultDirectories>true</excludeDefaultDirectories>
+					<!-- define the files that are to be deleted -->
+					<filesets>
+						<fileset>
+							<directory>test</directory>
+							<includes>
+								<include>*.class</include>
+							</includes>
+						</fileset>
+					</filesets>
+				</configuration>
+			</plugin>
+			<!-- package all the files in test folder to myResources folder -->
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<goals>
+					<goal>copy-resources</goal>
+				</goals>
+				<configuration>
+					<outputDirectory>${basedir}/myResources</outputDirectory>
+					<resources>
+						<resource>
+							<directory>test</directory>
+							<filtering>true</filtering>
+						</resource>
+					</resources>
+				</configuration>
+			</plugin>
+			<!-- compile the source code with jdk 1.8, by default, maven use 1.5 -->
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<goals>
+					<goal>compile</goal>
+				</goals>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<!-- package the project to jar with classes as classifier -->
+			<plugin>
+				<artifactId>maven-jar-plugin</artifactId>
+				<goals>
+					<goal>jar</goal>
+				</goals>
+				<configuration>
+					<classesDirectory>src/main/java</classesDirectory>
+					<classifier>classes</classifier>
+					<outputDirectory>myJarFile</outputDirectory>
+				</configuration>
+			</plugin>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>3.0.0</version>
