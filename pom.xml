@@ -77,6 +77,7 @@
 		</dependencies>
 	</dependencyManagement>
 
+	<!-- below configuration of the pom defines the operation which will be operate when package phase happened -->
 	<build>
 		<plugins>
 			<plugin>
@@ -85,7 +86,7 @@
 				<configuration>
 					<descriptors>
 						<descriptor>assembly.xml</descriptor>
-						<!-- package resources files only -->
+						<!-- package resources files only  -->
 						<descriptor>resource_assembly.xml</descriptor>
 					</descriptors>
 				</configuration>
@@ -116,6 +117,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId> 
 						<artifactId>maven-compiler-plugin</artifactId>
+						<version>3.7.0</version>
 						<configuration>
 							<debug>false</debug>
 							<optimize>true</optimize>
