@@ -88,12 +88,12 @@
 		</resources>
 		<plugins>
 			<!-- clean goal of clean plugin, attached with clean phase -->
-			<plugin>
+			<!-- <plugin>
 				<artifactId>maven-clean-plugin</artifactId>
 				<configuration>
-					<!-- disable the deletion of "target" folder -->
+					disable the deletion of "target" folder
 					<excludeDefaultDirectories>true</excludeDefaultDirectories>
-					<!-- define the files that are to be deleted -->
+					define the files that are to be deleted
 					<filesets>
 						<fileset>
 							<directory>test</directory>
@@ -103,9 +103,9 @@
 						</fileset>
 					</filesets>
 				</configuration>
-			</plugin>
+			</plugin> -->
 			<!-- package all the files in test folder to myResources folder -->
-			<plugin>
+			<!-- <plugin>
 				<artifactId>maven-resources-plugin</artifactId>
 				<goals>
 					<goal>copy-resources</goal>
@@ -119,7 +119,7 @@
 						</resource>
 					</resources>
 				</configuration>
-			</plugin>
+			</plugin> -->
 			<!-- compile the source code with jdk 1.8, by default, maven use 1.5 -->
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -132,7 +132,7 @@
 				</configuration>
 			</plugin>
 			<!-- package the project to jar with classes as classifier -->
-			<plugin>
+			<!-- <plugin>
 				<artifactId>maven-jar-plugin</artifactId>
 				<goals>
 					<goal>jar</goal>
@@ -142,14 +142,14 @@
 					<classifier>classes</classifier>
 					<outputDirectory>myJarFile</outputDirectory>
 				</configuration>
-			</plugin>
-			<plugin>
+			</plugin> -->
+			<!-- <plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>3.0.0</version>
 				<configuration>
 					<descriptors>
 						<descriptor>assembly.xml</descriptor>
-						<!-- package resources files only  -->
+						package resources files only 
 						<descriptor>resource_assembly.xml</descriptor>
 					</descriptors>
 				</configuration>
@@ -162,6 +162,37 @@
 						</goals>
 						<configuration>
 							<useJvmChmod>true</useJvmChmod>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin> -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.1.0</version>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals><goal>shade</goal></goals>
+						<configuration>
+							<!-- exclude part of dependencies -->
+							<artifactSet>
+								<excludes>
+									<exclude>junit:junit</exclude>
+								</excludes>
+							</artifactSet>
+							<!-- exclude certain file in dependency -->
+							<filters>
+								<filter>
+									<artifact>org.springframework:spring-beans</artifact>
+									<excludes>
+										<exclude>META-INF/spring.schemas</exclude>
+									</excludes>
+								</filter>
+							</filters>
+							<!-- minimize jar by excluding unused dependencies -->
+							<minimizeJar>false</minimizeJar>
 						</configuration>
 					</execution>
 				</executions>
